@@ -1,0 +1,33 @@
+http:
+  port: 8080
+
+apiEndpoints:
+  users:
+    paths: /users
+  posts:
+    paths: /posts
+
+serviceEndpoints:
+  userService:
+    url: http://localhost:3001
+  postService:
+    url: http://localhost:3002
+
+policies:
+  - proxy
+
+pipelines:
+  users:
+    apiEndpoints:
+      - users
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: userService
+  posts:
+    apiEndpoints:
+      - posts
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: postService
